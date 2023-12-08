@@ -137,10 +137,8 @@ paths:
             application/json:
               schema:
                 properties:
-                  questions:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Question'
+                  question:
+                    $ref: '#/components/schemas/Question'
         '404':
           description: User not found
   /answer:

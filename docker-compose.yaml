@@ -20,7 +20,7 @@ services:
 
   postgres:
     container_name: app-postgres
-    image: postgres:14.1
+    image: postgres:13
     environment:
       - POSTGRES_DB=app_db
       - POSTGRES_USER=app

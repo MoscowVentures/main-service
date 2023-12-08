@@ -7,6 +7,8 @@ from flask import request
 from flask import Response
 import redis
 
+from handlers.home import Home
+
 import os
 
 REDIS = redis.StrictRedis(
@@ -21,9 +23,16 @@ APP = Flask(__name__)
 
 @APP.route("/login", methods=["POST"])
 def read_item():
-    return 
+  conn = DB.connect()
+  cur = conn.cursor()
+  cur.execute(DB.get_prepared('select_theme'), ("123",))
+  rows = cur.fetchone()
+  conn.close()
+  return
 
-from database import DB
+@APP.route("/home", methods=["POST"])
+def HomeHandler():
+  return Home()
 
 if __name__ == "__main__":
   DB.set("dbname='{}' user='{}' port={} host='{}' password='{}'".format(
@@ -33,10 +42,7 @@ if __name__ == "__main__":
     os.environ.get('POSTGRES_HOST'),
     os.environ.get('POSTGRES_PASSWORD')
   ))
-  DB.prepare('select_theme')
-  
-  conn = DB.connect()
-  cur = conn.cursor()
-  cur.execute(DB.request('select_theme'), ("123",))
-  exists = cur.fetchone()
-  conn.close()
+  DB.prepare('select_themes')
+  DB.prepare('select_active_stories')
+
+  APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))

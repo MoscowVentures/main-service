@@ -30,6 +30,14 @@ CREATE TABLE app.questions (
 CREATE TABLE app.questions_x_users (
   question_uuid TEXT NOT NULL,
   user_uuid TEXT NOT NULL, 
-  answered BOOLEAN NOT NULL DEFAULT FALSE,
+  completed BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMP NOT NULL DEFAULT now()
 );
+
+CREATE TABLE app.stories (
+  uuid TEXT PRIMARY KEY DEFAULT uuid_generate_v4(),
+  show BOOLEAN DEFAULT TRUE,
+  text TEXT,
+  image_url TEXT NOT NULL
+);
+
