@@ -40,4 +40,3 @@ CREATE TABLE app.stories (
   text TEXT,
   image_url TEXT NOT NULL
 );
-

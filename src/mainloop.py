@@ -1,6 +1,7 @@
 from typing import Union
-
+from handlers.login import take_token
 from database import DB
+import logging
 
 from flask import Flask
 from flask import request
@@ -23,12 +24,19 @@ APP = Flask(__name__)
 
 @APP.route("/login", methods=["POST"])
 def read_item():
+  logging.info(request.json)
+  phone = request.json['phone']
+  code = request.json['code']
+  logging.info(phone)
+  logging.info(code)
   conn = DB.connect()
   cur = conn.cursor()
-  cur.execute(DB.get_prepared('select_theme'), ("123",))
-  rows = cur.fetchone()
-  conn.close()
-  return
+  cur.execute(DB.get_prepared('get_user_by_phone'), ('phone',))
+  uuid = cur.fetchone()
+  logging.info(uuid)
+  print(uuid)
+  conn.close()    
+  return take_token(REDIS, uuid, '0000')
 
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
@@ -45,4 +53,5 @@ if __name__ == "__main__":
   DB.prepare('select_themes')
   DB.prepare('select_active_stories')
 
+  DB.prepare('get_user_by_phone')
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))
