@@ -7,6 +7,7 @@ WITH completed_questions AS (
   FROM app.questions_x_users
   WHERE user_uuid = %s AND completed = FALSE
 )
+SELECT * FROM
 
 SELECT content, level, age, theme
 FROM app.questions
