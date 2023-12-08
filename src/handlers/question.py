@@ -1,22 +1,35 @@
 from database import DB
 import json
+from random import randint
+import logging
 
-def Question(user_uuid):
+def Question(user_uuid, themes, failed, completed):
   conn = DB.connect()
+  print('lool1')
   cur = conn.cursor()
-  cur.execute(DB.get_prepared('select_active_stories'), ("123",))
+  cur.execute(DB.get_prepared('select_questions'), 
+              (user_uuid,
+               0,10,
+               0,99,
+               themes,
+               failed,
+               completed))
   rows = cur.fetchall()
-  stories = []
+  questions = []
   for row in rows:
-    stories.append({'text':row[0], 'image_url':row[1]})
+    questions.append(row[0])
 
-  cur.execute(DB.get_prepared('select_themes'), ("123",))
-  rows = cur.fetchall()
-  themes = []
-  for row in rows:
-    themes.append({'uuid':row[0], 'title':row[1]})
+  question = {'uuid': questions[randint(0, len(questions) - 1)]}
 
-  conn.close()
+  cur.execute(DB.get_prepared('select_question'), 
+              (question['uuid']))
+  row = cur.fetchone()
 
+  logging.getLogger('service').info("WTF???")
 
-  return json.dumps({'stories': stories, 'themes': themes})
+  content = json.loads(row['content'])
+
+  question['title'] = content['title']
+  question['answers'] = content['answers']
+
+  return {"question": json.dumps(question)}

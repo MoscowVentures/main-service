@@ -105,6 +105,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: failed
+          in: query
+          schema:
+            type: string
+        - name: completed
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
@@ -130,6 +138,15 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                themes:
+                  type: array
+                  items:
+                    type: string
       responses:
         '200':
           description: successful operation

@@ -18,5 +18,4 @@ def Home(user_uuid):
 
   conn.close()
 
-
   return json.dumps({'stories': stories, 'themes': themes})
