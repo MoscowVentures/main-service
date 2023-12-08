@@ -1,0 +1,71 @@
+version: "2.3"
+
+services:
+  redis:
+    container_name: app-redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass Password12345
+    volumes:
+      - ./data/.redis:/data
+    healthcheck:
+        test: ["CMD-SHELL", "redis-cli --raw incr ping"]
+        interval: 5s
+        timeout: 3s
+        retries: 3
+    networks:
+      - main_network
+
+  postgres:
+    container_name: app-postgres
+    image: postgres:14.1
+    environment:
+      - POSTGRES_DB=app_db
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=Password12345
+    ports:
+      - 5432:5432
+    volumes:
+      - ./migrations:/docker-entrypoint-initdb.d
+      - ./data/.pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - main_network
+
+  service:
+    build: ./
+    container_name: app-service
+    image: app-img
+    restart: on-failure
+    environment:
+      - POSTGRES_DB=app_db
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=Password12345
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - REDIS_PASSWORD=Password12345
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVICE_HOST=0.0.0.0
+      - SERVICE_PORT=10000
+    ports:
+      - '10000:10000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./log:/app/log
+    networks:
+      - main_network
+
+networks:
+  main_network:
+    driver: bridge
