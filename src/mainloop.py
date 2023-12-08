@@ -12,6 +12,9 @@ import redis
 
 from handlers.home import Home
 from handlers.question import Question
+from handlers.question import Answer
+
+from handlers.login import verify
 
 import traceback
 import os
@@ -32,9 +35,19 @@ def ErrorWrapper(func):
     try:
       func()
     except Exception as e:
-        return {'error': str(e)}
+        logging.getLogger('service').info('Error: ' + str(e))
   return wrapper
 
+def AuthWrapper(func):
+  def wrapper():
+    ok, uuid = verify()
+    if ok:
+      func(uuid)
+    else:
+      return Response(status=401)
+  return wrapper
+
+@ErrorWrapper
 @APP.route("/login", methods=["POST"])
 def LoginHandler():
   phone = request.json['phone']
@@ -42,12 +55,14 @@ def LoginHandler():
   year = request.json['year']
   return Login(REDIS, phone, name, year)
 
+@ErrorWrapper
 @APP.route("/confirm", methods=["GET"])
 def ConfirmHandler():
   phone = request.json['phone']
   code = request.json['code']
   return get_token(REDIS, phone, code)
 
+@ErrorWrapper
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
   return Home('123')
@@ -59,6 +74,15 @@ def QuestionHandler():
                   request.json['themes'],
                   request.args.get('failed'),
                   request.args.get('completed'))
+
+@ErrorWrapper
+@APP.route("/question/<question_uuid>/answer", methods=["POST"])
+def QuestionHandler(question_uuid):
+  answers = request.json()['answers']
+  ok, uuid = verify(request.headers.get('Authorization'))
+  if not ok:
+    return Response(status=401)
+  return Answer(uuid, question_uuid, answers)
 
 if __name__ == "__main__":
   logging.getLogger('bot').setLevel(logging.INFO)
@@ -82,5 +106,8 @@ if __name__ == "__main__":
   DB.prepare('create_user')
   DB.prepare('get_user_by_phone')
   DB.prepare('select_questions')
+  DB.prepare('select_question')
+  DB.prepare('select_theme')
+  DB.prepare('insert_answer')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))

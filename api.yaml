@@ -158,7 +158,7 @@ paths:
                     $ref: '#/components/schemas/Question'
         '404':
           description: User not found
-  /answer:
+  /question/{uuid}/answer:
     post:
       tags:
        - main
@@ -169,7 +169,11 @@ paths:
           required: true
           schema:
             type: string
-
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -189,7 +193,6 @@ paths:
                   correct: 
                     type: boolean
                 
-        
 components:
   schemas:
     User:

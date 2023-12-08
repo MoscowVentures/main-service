@@ -34,7 +34,10 @@ CREATE TABLE app.questions (
 
   CONSTRAINT fk__question_type__questions
     FOREIGN KEY (question_type) 
-      REFERENCES app.question_types(id)
+      REFERENCES app.question_types(id),
+  CONSTRAINT fk__theme__questions
+    FOREIGN KEY (theme) 
+      REFERENCES app.themes(uuid)
 );
 
 CREATE TABLE app.questions_x_users (
@@ -42,6 +45,8 @@ CREATE TABLE app.questions_x_users (
   user_uuid TEXT NOT NULL, 
   completed BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMP NOT NULL DEFAULT now(),
+  
+  CONSTRAINT unique__questions_x_users UNIQUE (question_uuid, user_uuid),
 
   CONSTRAINT fk__user_uuid__questions_x_users 
     FOREIGN KEY (user_uuid) 

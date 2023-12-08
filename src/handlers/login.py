@@ -67,5 +67,5 @@ def verify(encoded):
     signature_income: bytes = JwtCoder.__bs64decode_with_fix_padding(signature_bs64)
     right_signature: bytes = JwtCoder(salt).__create_check_signature(header_bs64, payload_bs64)
 
-    return signature_income == right_signature
+    return signature_income == right_signature, uuid
 
