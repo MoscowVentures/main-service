@@ -1,6 +1,7 @@
 from typing import Union
-
+from handlers.login import take_token
 from database import DB
+import logging
 
 from flask import Flask
 from flask import request
@@ -21,7 +22,20 @@ APP = Flask(__name__)
 
 @APP.route("/login", methods=["POST"])
 def read_item():
-    return 
+
+  logging.info(request.json)
+  phone = request.json['phone']
+  code = request.json['code']
+  logging.info(phone)
+  logging.info(code)
+  conn = DB.connect()
+  cur = conn.cursor()
+  cur.execute(DB.get_prepared('get_user_by_phone'), ('phone',))
+  uuid = cur.fetchone()
+  logging.info(uuid)
+  print(uuid)
+  conn.close()    
+  return take_token(REDIS, uuid, '0000')
 
 from database import DB
 
@@ -34,9 +48,6 @@ if __name__ == "__main__":
     os.environ.get('POSTGRES_PASSWORD')
   ))
   DB.prepare('select_theme')
-  
-  conn = DB.connect()
-  cur = conn.cursor()
-  cur.execute(DB.request('select_theme'), ("123",))
-  exists = cur.fetchone()
-  conn.close()
+  DB.prepare('get_user_by_phone')
+APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))
+

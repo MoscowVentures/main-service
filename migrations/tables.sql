@@ -33,3 +33,4 @@ CREATE TABLE app.questions_x_users (
   answered BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMP NOT NULL DEFAULT now()
 );
+
