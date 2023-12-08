@@ -39,8 +39,8 @@ def ErrorWrapper(func):
 def LoginHandler():
   phone = request.json['phone']
   name = request.json['name']
-  year = request.json['year']
-  return Login(REDIS, phone, name, year)
+  age = request.json['age']
+  return Login(REDIS, phone, name, 2023 - age - 1)
 
 @APP.route("/confirm", methods=["GET"])
 def ConfirmHandler():
