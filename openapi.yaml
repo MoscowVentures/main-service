@@ -1,0 +1,92 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: API for app Simple Messenger
+  title: Simple Messenger
+  version: "1.0"
+paths:
+  /register:
+    post:
+      description: Create user
+      requestBody:
+        schema:
+          applica
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CreateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.BadResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.BadResponse'
+      summary: Create user
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login user
+      parameters:
+      - description: loginInfo
+        in: body
+        name: loginInfo
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.BadResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.BadResponse'
+      summary: Login user
+schemes:
+- http
+swagger: "2.0"
+
+definitions:
+  model.BadResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  model.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      nick:
+        type: string
+      password:
+        type: string
+    type: object
+  model.CreateUserResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  model.LoginRequest:
+    properties:
+      nick:
+        type: string
+      password:
+        type: string
+    type: object
+  model.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
