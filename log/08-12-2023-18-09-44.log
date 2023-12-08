@@ -1,0 +1,27 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.144.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:192.168.144.1 - - [08/Dec/2023 18:09:45] "POST /login HTTP/1.1" 200 -
+INFO:service:WTF???
+INFO:service:('88c737bf-08ec-4749-97ff-cc0d2d357768',)
+INFO:werkzeug:192.168.144.1 - - [08/Dec/2023 18:09:48] "GET /confirm HTTP/1.1" 200 -
+ERROR:mainloop:Exception on /test [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 54, in TestHandler
+    return verify(REDIS, token)
+  File "/app/src/handlers/login.py", line 72, in verify
+    right_signature: bytes = JwtCoder(salt).__create_check_signature(header_bs64, payload_bs64)
+  File "/app/src/handlers/jwtcoder.py", line 22, in __init__
+    assert secret_key and isinstance(secret_key, str), 'Secret key must be set'
+AssertionError: Secret key must be set
+INFO:werkzeug:192.168.144.1 - - [08/Dec/2023 18:09:51] "[35m[1mGET /test HTTP/1.1[0m" 500 -

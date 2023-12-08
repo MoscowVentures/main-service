@@ -1,5 +1,5 @@
 from typing import Union
-from handlers.login import Login, get_token
+from handlers.login import Login, get_token, verify
 from database import DB
 import logging
 
@@ -48,6 +48,11 @@ def ConfirmHandler():
   code = request.json['code']
   return get_token(REDIS, phone, code)
 
+@APP.route("/test", methods=["GET"])
+def TestHandler():
+  token = request.json["token"]
+  return {"result": verify(REDIS, token)}
+
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
   return Home('123')
@@ -61,7 +66,6 @@ def QuestionHandler():
                   request.args.get('completed'))
 
 if __name__ == "__main__":
-  logging.getLogger('bot').setLevel(logging.INFO)
   logging.getLogger('service').setLevel(logging.INFO)
 
   logging.basicConfig(filename='log/{}.log'.format(datetime.now().strftime("%d-%m-%Y-%H-%M-%S")), filemode='a')

@@ -1,6 +1,7 @@
 from database import DB
 from .jwtcoder import JwtCoder
 import logging
+import json
 import random
 
 ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -37,6 +38,9 @@ def is_code_valid(redis, phone, code):
     uuid = take_uuid_by_phone(phone)
     if uuid is None:
         return False
+    logging.getLogger('service').info("WTF???")
+    logging.getLogger('service').info(uuid)
+    uuid = uuid[0]
     right_code = redis.get(uuid)
     if right_code == code:
         return True
@@ -47,25 +51,36 @@ def get_token(redis, phone, code):
     for i in range(16):
         chars.append(random.choice(ALPHABET))
     if is_code_valid(redis, phone, code):
-        uuid = take_uuid_by_phone(phone)
+        uuid = take_uuid_by_phone(phone)[0]
         salt = "".join(chars)
         token = JwtCoder(salt).encode({"uuid": uuid})
+        logging.getLogger("service").info("salt_" + uuid)
+        logging.getLogger("service").info(salt)
         redis.set("salt_" + uuid, salt)
+        logging.getLogger("service").info(redis.get("salt_" + uuid))
         return {"token": token}
     return {}
 
-def verify(encoded):
+def verify(redis, encoded):
     parts = encoded.split('.')
 
     header_bs64 = parts[0]
     payload_bs64 = parts[1]
     signature_bs64 = parts[2]
 
-    uuid = JwtCoder.__bs64decode_with_fix_padding(payload_bs64)['uuid']
-    salt = redis.get("salt_" + uuid)
+    uuid = json.loads(JwtCoder.bs64decode_with_fix_padding(payload_bs64))['uuid']
+    salt = None
+    try:
+        salt = redis.get("salt_" + uuid)
+    except Exception:
+        pass
+    if salt is None:
+        return False
+    logging.getLogger('service').info(uuid)
+    logging.getLogger('service').info(salt)
 
-    signature_income: bytes = JwtCoder.__bs64decode_with_fix_padding(signature_bs64)
-    right_signature: bytes = JwtCoder(salt).__create_check_signature(header_bs64, payload_bs64)
+    signature_income: bytes = JwtCoder.bs64decode_with_fix_padding(signature_bs64)
+    right_signature: bytes = JwtCoder(salt).create_check_signature(header_bs64, payload_bs64)
 
     return signature_income == right_signature
 

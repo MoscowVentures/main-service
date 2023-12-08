@@ -1,0 +1,9 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.64.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:192.168.64.1 - - [08/Dec/2023 17:09:05] "POST /login HTTP/1.1" 200 -
+INFO:service:WTF???
+INFO:service:('10a1b2e7-2c29-4dde-a96e-bcef3267b62d',)
+INFO:werkzeug:192.168.64.1 - - [08/Dec/2023 17:09:08] "GET /confirm HTTP/1.1" 200 -

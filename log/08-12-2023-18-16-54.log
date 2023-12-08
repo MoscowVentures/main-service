@@ -1,0 +1,26 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.192.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:192.168.192.1 - - [08/Dec/2023 18:16:55] "POST /login HTTP/1.1" 200 -
+INFO:service:WTF???
+INFO:service:('e1706e8b-d900-4ce5-b0a6-5787f0410d19',)
+INFO:service:salt_e1706e8b-d900-4ce5-b0a6-5787f0410d19
+INFO:service:f2ncU945op3YBnCy
+INFO:service:f2ncU945op3YBnCy
+INFO:werkzeug:192.168.192.1 - - [08/Dec/2023 18:16:58] "GET /confirm HTTP/1.1" 200 -
+INFO:service:e1706e8b-d900-4ce5-b0a6-5787f0410d19
+INFO:service:f2ncU945op3YBnCy
+ERROR:mainloop:Exception on /test [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2173, in make_response
+    raise TypeError(
+TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a bool.
+INFO:werkzeug:192.168.192.1 - - [08/Dec/2023 18:17:13] "[35m[1mGET /test HTTP/1.1[0m" 500 -

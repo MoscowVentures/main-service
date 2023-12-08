@@ -1,0 +1,42 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.16.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:192.168.16.1 - - [08/Dec/2023 17:03:06] "POST /login HTTP/1.1" 200 -
+INFO:service:WTF???
+INFO:service:('3fd8b59d-6899-49f1-a6a6-3b6fdf460b83',)
+ERROR:mainloop:Exception on /confirm [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 49, in ConfirmHandler
+    return get_token(REDIS, phone, code)
+  File "/app/src/handlers/login.py", line 51, in get_token
+    if is_code_valid(redis, phone, code):
+  File "/app/src/handlers/login.py", line 42, in is_code_valid
+    right_code = redis.get(uuid)
+  File "/usr/local/lib/python3.9/site-packages/redis/commands/core.py", line 1790, in get
+    return self.execute_command("GET", name)
+  File "/usr/local/lib/python3.9/site-packages/redis/client.py", line 1258, in execute_command
+    return conn.retry.call_with_retry(
+  File "/usr/local/lib/python3.9/site-packages/redis/retry.py", line 46, in call_with_retry
+    return do()
+  File "/usr/local/lib/python3.9/site-packages/redis/client.py", line 1259, in <lambda>
+    lambda: self._send_command_parse_response(
+  File "/usr/local/lib/python3.9/site-packages/redis/client.py", line 1234, in _send_command_parse_response
+    conn.send_command(*args)
+  File "/usr/local/lib/python3.9/site-packages/redis/connection.py", line 841, in send_command
+    self._command_packer.pack(*args),
+  File "/usr/local/lib/python3.9/site-packages/redis/connection.py", line 557, in pack
+    for arg in map(self.encode, args):
+  File "/usr/local/lib/python3.9/site-packages/redis/connection.py", line 115, in encode
+    raise DataError(
+redis.exceptions.DataError: Invalid input of type: 'tuple'. Convert to a bytes, string, int or float first.
+INFO:werkzeug:192.168.16.1 - - [08/Dec/2023 17:03:10] "[35m[1mGET /confirm HTTP/1.1[0m" 500 -

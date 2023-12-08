@@ -1,0 +1,24 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.48.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:192.168.48.1 - - [08/Dec/2023 17:07:53] "POST /login HTTP/1.1" 200 -
+INFO:service:WTF???
+INFO:service:('175b6746-5d5b-48c5-b535-d375e864eb16',)
+ERROR:mainloop:Exception on /confirm [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 49, in ConfirmHandler
+    return get_token(REDIS, phone, code)
+  File "/app/src/handlers/login.py", line 56, in get_token
+    redis.set("salt_" + uuid, salt)
+TypeError: can only concatenate str (not "tuple") to str
+INFO:werkzeug:192.168.48.1 - - [08/Dec/2023 17:07:57] "[35m[1mGET /confirm HTTP/1.1[0m" 500 -

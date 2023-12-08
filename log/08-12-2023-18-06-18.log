@@ -1,0 +1,25 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://192.168.112.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:192.168.112.1 - - [08/Dec/2023 18:06:18] "POST /login HTTP/1.1" 200 -
+INFO:service:WTF???
+INFO:service:('8336df0f-5146-4a64-899f-707b15df3564',)
+INFO:werkzeug:192.168.112.1 - - [08/Dec/2023 18:06:21] "GET /confirm HTTP/1.1" 200 -
+ERROR:mainloop:Exception on /test [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 54, in TestHandler
+    return verify(token)
+  File "/app/src/handlers/login.py", line 67, in verify
+    uuid = JwtCoder.bs64decode_with_fix_padding(payload_bs64)['uuid']
+TypeError: byte indices must be integers or slices, not str
+INFO:werkzeug:192.168.112.1 - - [08/Dec/2023 18:06:28] "[35m[1mGET /test HTTP/1.1[0m" 500 -
