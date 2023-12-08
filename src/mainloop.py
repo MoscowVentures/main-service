@@ -1,5 +1,5 @@
 from typing import Union
-from handlers.login import take_token
+from handlers.login import Login, get_token
 from database import DB
 import logging
 
@@ -23,20 +23,18 @@ REDIS = redis.StrictRedis(
 APP = Flask(__name__)
 
 @APP.route("/login", methods=["POST"])
-def read_item():
-  logging.info(request.json)
+def login():
+  phone = request.json['phone']
+  name = request.json['name']
+  year = request.json['year']
+  return Login(REDIS, phone, name, year)
+
+@APP.route("/confirm", methods=["GET"])
+def confirm():
   phone = request.json['phone']
   code = request.json['code']
-  logging.info(phone)
-  logging.info(code)
-  conn = DB.connect()
-  cur = conn.cursor()
-  cur.execute(DB.get_prepared('get_user_by_phone'), ('phone',))
-  uuid = cur.fetchone()
-  logging.info(uuid)
-  print(uuid)
-  conn.close()    
-  return take_token(REDIS, uuid, '0000')
+  return get_token(REDIS, phone, code)
+
 
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
@@ -52,6 +50,7 @@ if __name__ == "__main__":
   ))
   DB.prepare('select_themes')
   DB.prepare('select_active_stories')
+  DB.prepare('create_user')
 
   DB.prepare('get_user_by_phone')
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))

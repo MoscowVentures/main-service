@@ -5,10 +5,8 @@ build: build-base
 	docker build -t app-img .
 
 start: build
-	docker-compose up -d
+	docker-compose up
 
 stop:
 	docker-compose down
 	rm -rf ./data
-	docker rmi app-image
-	docker rmi app-base-image
