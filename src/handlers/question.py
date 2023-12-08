@@ -5,9 +5,8 @@ import logging
 
 def Question(user_uuid, themes, failed, completed):
   conn = DB.connect()
-  print('lool1')
   cur = conn.cursor()
-  cur.execute(DB.get_prepared('select_questions'), 
+  cur.execute(DB.get_prepared('select_questions'),
               (user_uuid,
                0,10,
                0,99,
@@ -21,15 +20,20 @@ def Question(user_uuid, themes, failed, completed):
 
   question = {'uuid': questions[randint(0, len(questions) - 1)]}
 
-  cur.execute(DB.get_prepared('select_question'), 
-              (question['uuid']))
+  cur.execute(DB.get_prepared('select_question'),
+              (question['uuid'],))
   row = cur.fetchone()
 
-  logging.getLogger('service').info("WTF???")
+  theme_uuid = row[5]
 
-  content = json.loads(row['content'])
-
+  content = json.loads(row[2])
   question['title'] = content['title']
   question['answers'] = content['answers']
 
-  return {"question": json.dumps(question)}
+  cur.execute(DB.get_prepared('select_theme'),
+              (theme_uuid,))
+  row = cur.fetchone()
+
+  question['theme'] = row[1]
+
+  return {"question": question}

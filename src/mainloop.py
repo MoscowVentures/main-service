@@ -84,5 +84,7 @@ if __name__ == "__main__":
   DB.prepare('select_active_stories')
   DB.prepare('get_user_by_phone')
   DB.prepare('select_questions')
+  DB.prepare('select_question')
+  DB.prepare('select_theme')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))
