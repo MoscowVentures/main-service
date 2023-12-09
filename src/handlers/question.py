@@ -3,6 +3,8 @@ import json
 from random import randint
 import logging
 
+from flask import Response
+
 import os
 
 import requests
@@ -10,19 +12,19 @@ import requests
 NEURO_BASEURL = os.environ.get('NEURO_BASEURL')
 ANTIFRAUD_DURATION = 300
 
-def antifraud(uuid):
-  conn = DB.connect()
-  cur = conn.cursor()
-  cur.execute(DB.get_prepared('select_last_answers'), 
-              (user_uuid,))
-  row = cur.fetchone()
-  conn.close()
+# def antifraud(user_uuid):
+#   conn = DB.connect()
+#   cur = conn.cursor()
+#   cur.execute(DB.get_prepared('select_last_answers'), 
+#               (user_uuid,))
+#   row = cur.fetchone()
+#   conn.close()
 
-  return True
+#   return True
 
 def GetNeuroQuestion(user_uuid):
-  if (antifraud(user_uuid)):
-    return {}
+  # if (antifraud(user_uuid)):
+  #   return {}
 
   conn = DB.connect()
   cur = conn.cursor()
@@ -95,7 +97,9 @@ def GetQuestion(user_uuid, themes, failed, completed):
 
 
 def Question(user_uuid, themes, failed, completed, neuro):
+  neuro = False
+
   if neuro:
-    GetNeuroQuestion(user_uuid)
+    return GetNeuroQuestion(user_uuid)
   else:
-    GetQuestion(user_uuid, themes, failed, completed)
+    return GetQuestion(user_uuid, themes, failed, completed)

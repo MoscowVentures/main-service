@@ -45,15 +45,16 @@ def ErrorWrapper(func):
   return wrapper
 
 
-def Auth(token):  
+def Auth(token):
+  if os.environ.get('AUTH_ENABLED') == 'False' and token is None:
+    return 'uuid'
+  
   if token is None:
     return None
   
   logging.getLogger("service").info(token)
   ok, uuid = verify(REDIS, token)
   if not ok:
-    if os.environ.get('AUTH_ENABLED') == 'False':
-      return 'uuid'
     return None
   else:
     return uuid
