@@ -2,7 +2,7 @@ WITH user_questions(qu, uu, c) AS (
     SELECT question_uuid, user_uuid, completed
     FROM
         questions_x_users
-    WHERE user_uuid = 'user_uuid_1'
+    WHERE user_uuid = %s
 )
 SELECT
     ROUND((SUM(c::INTEGER * level)::REAL / SUM(level) * 100)::DECIMAL)::INTEGER AS stat,
