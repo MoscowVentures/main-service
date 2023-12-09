@@ -3,7 +3,11 @@ import json
 from random import randint
 import logging
 
-def Question(user_uuid, themes, failed, completed):
+def GetNeuroQuestion():
+  context = 'Тема: '
+  return {"question": context}
+  
+def GetQuestion(user_uuid, themes, failed, completed):
   conn = DB.connect()
   cur = conn.cursor()
   cur.execute(DB.get_prepared('select_questions'), 
@@ -38,3 +42,9 @@ def Question(user_uuid, themes, failed, completed):
   question['theme'] = row[1]
 
   return {"question": question}
+
+def Question(user_uuid, themes, failed, completed, neuro):
+  if neuro:
+    GetNeuroQuestion()
+  else:
+    GetQuestion(user_uuid, themes, failed, completed)

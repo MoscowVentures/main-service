@@ -108,7 +108,8 @@ def QuestionHandler():
   return Question(uuid,
                   request.json['themes'],
                   request.args.get('failed'),
-                  request.args.get('completed')), 200, {'Content-Type': 'application/json; charset=utf-8'}
+                  request.args.get('completed'),
+                  request.args.get('neuro')), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 @ErrorWrapper
 @APP.route("/question/<question_uuid>/answer", methods=["POST"])
