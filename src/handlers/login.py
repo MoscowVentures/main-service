@@ -14,7 +14,10 @@ def take_uuid_by_phone(phone):
   conn = DB.connect()
   cur = conn.cursor()
   cur.execute(DB.get_prepared('get_user_by_phone'), (phone,))
-  uuid = cur.fetchone()
+  row = cur.fetchone()
+  if row is None:
+    return None
+  uuid = row[0]
   logging.getLogger('service').info(uuid)
   conn.close()   
   return uuid
@@ -26,28 +29,26 @@ def create_user(phone, name, year):
     conn.commit()
     conn.close()
 
-def send_code(redis, uuid):
-    random_code = '0000'
-    redis.set(uuid, random_code)
+def send_code(uuid):
+    return '0000'
 
 def Login(redis, phone, name, year):
     uuid = take_uuid_by_phone(phone)
     if uuid is None:
         create_user(phone, name, year)
-    uuid = take_uuid_by_phone(phone)[0]
-    send_code(redis, uuid)
+    uuid = take_uuid_by_phone(phone)
+    redis.set(uuid, send_code(uuid))
     return {}
 
 def is_code_valid(redis, phone, code):
-    logging.getLogger('service').info('phone:' + phone)
-    logging.getLogger('service').info('code:' + code)
+    logging.getLogger('service').info('phone:' + str(phone))
+    logging.getLogger('service').info('code:' + str(code))
     uuid = take_uuid_by_phone(phone)
-    logging.getLogger('service').info('uuid:' + uuid[0])
+    logging.getLogger('service').info('uuid:' + str(uuid))
     if uuid is None:
         return False
-    uuid = uuid[0]
     right_code = redis.get(uuid)
-    logging.getLogger('service').info('rigth-code:' + right_code)
+    logging.getLogger('service').info('rigth-code:' + str(right_code))
     if right_code == code:
         return True
     return False
@@ -57,13 +58,13 @@ def get_token(redis, phone, code):
     for i in range(16):
         chars.append(random.choice(ALPHABET))
     if is_code_valid(redis, phone, code):
-        uuid = take_uuid_by_phone(phone)[0]
+        uuid = take_uuid_by_phone(phone)
         salt = "".join(chars)
         token = JwtCoder(salt).encode({"uuid": uuid})
-        logging.getLogger("service").info("salt_" + uuid)
+        logging.getLogger("service").info("salt_" + str(uuid))
         logging.getLogger("service").info(salt)
         redis.set("salt_" + uuid, salt)
-        logging.getLogger("service").info(redis.get("salt_" + uuid))
+        logging.getLogger("service").info(redis.get("salt_" + str(uuid)))
         return {"token": token}
     return Response(status=400)
 

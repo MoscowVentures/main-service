@@ -43,7 +43,7 @@ services:
     build: ./
     container_name: app-service
     image: app-img
-    restart: on-failure
+    restart: always
     environment:
       - NEURO_BASEURL=http://...
       - AUTH_ENABLED=False
