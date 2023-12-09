@@ -14,7 +14,7 @@ def Home(user_uuid):
   rows = cur.fetchall()
   themes = []
   for row in rows:
-    themes.append({'uuid':row[0], 'title':row[1]})
+    themes.append({'uuid':row[0], 'title':row[1], 'image_url':row[2]})
 
   conn.close()
 

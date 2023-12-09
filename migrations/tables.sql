@@ -15,7 +15,8 @@ CREATE TABLE app.users (
 
 CREATE TABLE app.themes (
   uuid TEXT PRIMARY KEY DEFAULT uuid_generate_v4(),
-  title TEXT NOT NULL UNIQUE
+  title TEXT NOT NULL UNIQUE,
+  image_url TEXT
 );
 
 CREATE TABLE app.question_types (
