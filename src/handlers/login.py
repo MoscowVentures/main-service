@@ -37,13 +37,15 @@ def Login(redis, phone, name, year):
     return {}
 
 def is_code_valid(redis, phone, code):
+    logging.getLogger('service').info('phone:' + phone)
+    logging.getLogger('service').info('code:' + code)
     uuid = take_uuid_by_phone(phone)
+    logging.getLogger('service').info('uuid:' + uuid)
     if uuid is None:
         return False
-    logging.getLogger('service').info("WTF???")
-    logging.getLogger('service').info(uuid)
     uuid = uuid[0]
     right_code = redis.get(uuid)
+    logging.getLogger('service').info('rigth-code:' + right_code)
     if right_code == code:
         return True
     return False
