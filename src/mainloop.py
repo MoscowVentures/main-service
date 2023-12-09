@@ -145,7 +145,7 @@ def LeaderbordHandler():
 
 @APP.route("/test/audio", methods=["POST"])
 def TestAudioHandler():
-  logging.getLogger('service').info(request)
+  logging.getLogger('service').info(request.json)
   data = open('resources/uwu.mp3', 'rb').read()
   return data, 200, {'Content-Type': 'audio/mpeg'}
 

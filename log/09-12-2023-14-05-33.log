@@ -8,3 +8,9 @@ INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 14:05:36] "POST /test/audio HTTP/1.1
 INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 14:05:54] "[33mPOST /test/audi HTTP/1.1[0m" 404 -
 INFO:service:<Request 'http://localhost:10000/test/audio' [POST]>
 INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 14:06:01] "POST /test/audio HTTP/1.1" 200 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiNTg2NTI4ZGEtOTEwZi00MTYyLTkxODYtYWRmMGY2OTViMzZkIn0.mHjUxvGZoJVOWDV619swriEPrlJ1qygFM0zsArAcWes
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 14:18:38] "[31m[1mPOST /question/question_uuid_7/answer HTTP/1.1[0m" 401 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiNzZiOWVhMmQtYmU5ZS00ODljLTgwNjktMDA1MTM1MGJiMDFjIn0.8-9qTQI_EhK7Lk66RIhBGljDGvLCQj5oUL3NGGonMNE
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 14:18:45] "[31m[1mPOST /question/question_uuid_7/answer HTTP/1.1[0m" 401 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiNzZiOWVhMmQtYmU5ZS00ODljLTgwNjktMDA1MTM1MGJiMDFjIn0.8-9qTQI_EhK7Lk66RIhBGljDGvLCQj5oUL3NGGonMNE
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 14:19:01] "[31m[1mPOST /question/question_uuid_7/answer HTTP/1.1[0m" 401 -
