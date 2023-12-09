@@ -27,7 +27,10 @@ def get_user_pos(uuid):
   logging.getLogger('service').info(uuid)
   logging.getLogger('service').info(row)
   conn.close()
-  return row
+  if row is None:
+    return None
+  else:
+    return row[2]
 
 def get_leaderbord():
   conn = DB.connect()
@@ -60,7 +63,8 @@ def Profile(uuid):
     response["year"] = user_data[3]
     response["phone"] = user_data[4]
     response["statistics"] = statistics
-    response["pos"] = user_pos[2]
+    if user_pos is not None:
+      response["pos"] = user_pos
     return response
 
 def Leaderbord():

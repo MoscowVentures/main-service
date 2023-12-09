@@ -65,6 +65,7 @@ services:
         condition: service_healthy
     volumes:
       - ./log:/app/log
+      - ./resources:/app/resources
     networks:
       - main_network
 

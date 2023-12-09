@@ -121,6 +121,7 @@ def QuestionHandler():
                   request.args.get('completed'),
                   request.args.get('neuro')), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+
 @ErrorWrapper
 @APP.route("/question/<question_uuid>/answer", methods=["POST"])
 def AnswerHandler(question_uuid):
@@ -140,6 +141,13 @@ def LeaderbordHandler():
   if uuid is None:
     return Response(status=401)
   return Leaderbord()
+
+
+@APP.route("/test/audio", methods=["POST"])
+def TestAudioHandler():
+  logging.getLogger('service').info(request)
+  data = open('resources/uwu.mp3', 'rb').read()
+  return data, 200, {'Content-Type': 'audio/mpeg'}
 
 
 if __name__ == "__main__":
