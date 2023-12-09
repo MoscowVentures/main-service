@@ -32,6 +32,12 @@ insert into app.stories (text, image_url, title, align) values
 -- ), (
 --   1, '{"title":"Question?", "answers":["answer1", "answer2", "answer3"]}', '{}', 3, 12, 'uuid1'
 -- );
+INSERT INTO app.users(
+  uuid, name, year, phone
+)
+VALUES (
+  'user_uuid1', 'ivan', '2000', '9349439939'
+);
 
 INSERT INTO app.themes (
   uuid, title
@@ -78,4 +84,22 @@ INSERT INTO app.questions (
 ), (
   'question_uuid_9', 1, '{"title":"Что такое мобильная безопасность?", "answers":["1. Программа для удаления вирусов на мобильных устройствах.", "2. Метод защиты от фишинга.", "3. Специализированная программа для сканирования мобильных приложений.","4. Система защиты данных на мобильных устройствах."]}',
   '{"right_answers":["4. Система защиты данных на мобильных устройствах."]}', 4, 12, 'theme_uuid_3'
+);
+
+INSERT INTO app.questions_x_users (
+  question_uuid, user_uuid, completed
+) VALUES (
+  'question_uuid_1', 'user_uuid1', FALSE
+),
+(
+  'question_uuid_2', 'user_uuid1', TRUE
+),
+(
+  'question_uuid_3', 'user_uuid1', FALSE
+),
+(
+  'question_uuid_4', 'user_uuid1', TRUE
+),
+(
+  'question_uuid_5', 'user_uuid1', TRUE
 );

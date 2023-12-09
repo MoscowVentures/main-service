@@ -1,0 +1,26 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://172.23.0.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:service:('user_uuid1',)
+INFO:service:('user_uuid1',)
+INFO:werkzeug:172.23.0.1 - - [09/Dec/2023 09:39:09] "POST /login HTTP/1.1" 200 -
+INFO:service:('user_uuid1',)
+INFO:service:WTF???
+INFO:service:('user_uuid1',)
+INFO:service:('user_uuid1',)
+INFO:service:salt_user_uuid1
+INFO:service:vlrGNlenazqOtfZv
+INFO:service:vlrGNlenazqOtfZv
+INFO:werkzeug:172.23.0.1 - - [09/Dec/2023 09:39:12] "GET /confirm HTTP/1.1" 200 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoidXNlcl91dWlkMSJ9.MDu3UpDheQf3EnM5e9IcssIl15wMallYJazsKSBnxmc
+INFO:service:user_uuid1
+INFO:service:vlrGNlenazqOtfZv
+INFO:service:What?user_uuid1
+INFO:service:user_uuid1
+INFO:service:user_uuid1
+INFO:service:('user_uuid1', 'https://cdn3.iconfinder.com/data/icons/feather-5/24/user-512.png', 'ivan', 2000, '9349439939', datetime.datetime(2023, 12, 9, 9, 38, 53, 771384))
+INFO:service:[(33, 'user_uuid1', 'theme_uuid_1'), (100, 'user_uuid1', 'theme_uuid_2')]
+INFO:service:https://cdn3.iconfinder.com/data/icons/feather-5/24/user-512.png
+INFO:werkzeug:172.23.0.1 - - [09/Dec/2023 09:39:25] "GET /profile HTTP/1.1" 200 -

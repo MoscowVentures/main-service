@@ -14,7 +14,7 @@ def get_user_stat(uuid):
   conn = DB.connect()
   cur = conn.cursor()
   cur.execute(DB.get_prepared('get_user_stat'), (uuid,))
-  row = cur.fetchone()
+  row = cur.fetchall()
   logging.getLogger('service').info(uuid)
   conn.close()   
   return row
@@ -32,6 +32,9 @@ def Profile(uuid):
         stat["theme_uuid"] = row[2]
         statistics.append(stat)
     response = {}
+    logging.getLogger('service').info(user_data)
+    logging.getLogger('service').info(user_stat)
+    logging.getLogger('service').info(user_data[1])
     response["url"] = user_data[1]
     response["name"] = user_data[2]
     response["year"] = user_data[3]
