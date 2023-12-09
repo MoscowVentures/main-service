@@ -5,4 +5,5 @@ SELECT
 FROM
     questions_x_users
     NATURAL JOIN questions
+WHERE user_uuid = %s
 GROUP BY user_uuid, theme_uuid
