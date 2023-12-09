@@ -45,7 +45,7 @@ services:
     restart: on-failure
     environment:
       - NEURO_BASEURL=http://...
-      - AUTH_ENABLED=True
+      - AUTH_ENABLED=False
       - POSTGRES_DB=app_db
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=Password12345

@@ -61,8 +61,6 @@ def Auth(token):
 
 @APP.route("/login", methods=["POST"])
 def LoginHandler():
-  if request.json is not None:
-    logging.getLogger('service').info(request.json)
   if (not 'phone' in request.json):
     return Response(status=400)
   phone = request.json['phone']  
@@ -79,8 +77,6 @@ def LoginHandler():
 @ErrorWrapper
 @APP.route("/confirm", methods=["GET"])
 def ConfirmHandler():
-  if request.json is not None:
-    logging.getLogger('service').info(request.json)
   phone = request.json['phone']
   code = request.json['code']
   return get_token(REDIS, phone, code)
@@ -89,8 +85,6 @@ def ConfirmHandler():
 @ErrorWrapper
 @APP.route("/test", methods=["GET"])
 def TestHandler():
-  if request.json is not None:
-    logging.getLogger('service').info(request.json)
   token = request.json["token"]
   return {"result": verify(REDIS, token)}, 200, {'Content-Type': 'application/json; charset=utf-8'}
 
@@ -98,8 +92,6 @@ def TestHandler():
 @ErrorWrapper
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
-  if request.json is not None:
-    logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
@@ -108,8 +100,6 @@ def HomeHandler():
 
 @APP.route("/profile", methods=["GET"])
 def ProfileHandler():
-  if request.json is not None:
-    logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   logging.getLogger('service').info('What?' + uuid)
   if uuid is None:
@@ -120,8 +110,6 @@ def ProfileHandler():
 @ErrorWrapper
 @APP.route("/question", methods=["POST"])
 def QuestionHandler():
-  if request.json is not None:
-    logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
@@ -135,8 +123,6 @@ def QuestionHandler():
 @ErrorWrapper
 @APP.route("/question/<question_uuid>/answer", methods=["POST"])
 def AnswerHandler(question_uuid):
-  if request.json is not None:
-    logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
