@@ -9,5 +9,5 @@ FROM
         questions_x_users as qxu
         INNER JOIN app.questions AS q ON qxu.question_uuid = q.uuid
         INNER JOIN app.users AS u ON qxu.user_uuid = u.uuid
-    GROUP BY user_uuid
+    GROUP BY u.name
 ) as TMP;

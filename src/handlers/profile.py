@@ -22,7 +22,7 @@ def get_user_stat(uuid):
 def get_user_pos(uuid):
   conn = DB.connect()
   cur = conn.cursor()
-  cur.execute(DB.get_prepared('get_user_pos'), (uuid), )
+  cur.execute(DB.get_prepared('get_user_pos'), (uuid,) )
   row = cur.fetchone()
   logging.getLogger('service').info(uuid)
   logging.getLogger('service').info(row)
@@ -32,7 +32,7 @@ def get_user_pos(uuid):
 def get_leaderbord():
   conn = DB.connect()
   cur = conn.cursor()
-  cur.execute(DB.get_prepared('get_leaderbord'))
+  cur.execute(DB.get_prepared('get_leaderboard'))
   rows = cur.fetchall()
   logging.getLogger('service').info(rows)
   conn.close()
@@ -60,7 +60,7 @@ def Profile(uuid):
     response["year"] = user_data[3]
     response["phone"] = user_data[4]
     response["statistics"] = statistics
-    response["pos"] = user_pos[0]
+    response["pos"] = user_pos[2]
     return response
 
 def Leaderbord():

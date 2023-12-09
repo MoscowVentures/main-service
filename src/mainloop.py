@@ -155,5 +155,7 @@ if __name__ == "__main__":
   DB.prepare('insert_answer')
   DB.prepare('get_user_by_uuid')
   DB.prepare('get_user_stat')
+  DB.prepare('get_user_pos')
+  DB.prepare('get_leaderboard')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))
