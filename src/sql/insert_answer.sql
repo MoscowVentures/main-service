@@ -5,5 +5,5 @@ INSERT INTO app.questions_x_users (
 )
 ON CONFLICT (question_uuid, user_uuid)
 DO UPDATE SET 
-  completed = EXCLUDED.completed
+  completed = EXCLUDED.completed,
   created_at = now();
