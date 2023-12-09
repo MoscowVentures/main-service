@@ -4,6 +4,7 @@ build-base:
 clear: 
 	docker-compose down && true
 	rm -rf ./data && true
+	rm -rf ./log
 	docker rmi app-image && true
 	docker rmi app-base-image && true
 

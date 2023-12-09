@@ -64,7 +64,11 @@ def get_token(redis, phone, code):
     return Response(status=401)
 
 def verify(redis, encoded):
+    if encoded == '':
+        return False, ''
     parts = encoded.split('.')
+    if len(parts) < 3:
+        return False, ''
 
     header_bs64 = parts[0]
     payload_bs64 = parts[1]

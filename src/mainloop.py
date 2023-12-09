@@ -43,27 +43,33 @@ def ErrorWrapper(func):
         logging.getLogger('service').info('Error: ' + str(e))
   return wrapper
 
-def AuthWrapper(func):
-  def wrapper(*args, **kwargs):
-    # request = args[0]
-    logging.getLogger("service").info(len(args))
-    logging.getLogger("service").info(request)
-    logging.getLogger("service").info(request.headers.get('Authorization'))
-    ok, uuid = verify(REDIS, request.headers.get('Authorization'))
-    if not ok:
-      return Response(status = 401)
-    else:
-      return func(uuid)
-  return wrapper
-
-
+def Auth(token):
+  if os.environ.get('AUTH_ENABLED') == 'False':
+    return 'uuid'
+  
+  if token is None:
+    return None
+  
+  logging.getLogger("service").info(token)
+  ok, uuid = verify(REDIS, token)
+  if not ok:
+    return None
+  else:
+    return uuid
 
 @APP.route("/login", methods=["POST"])
 def LoginHandler():
-  phone = request.json['phone']
-  name = request.json['name']
-  age = request.json['age']
-  return Login(REDIS, phone, name, datetime.now().year - age - 1)
+  if (not 'phone' in request.json):
+    return Response(status=400)
+  phone = request.json['phone']  
+
+  name = None
+  if 'name' in request.json:
+    name = request.json['name']
+  age = None
+  if 'age' in request.json:
+    age = request.json['age']
+  return Login(REDIS, phone, name, datetime.now().year - age - 1), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 @ErrorWrapper
 @APP.route("/confirm", methods=["GET"])
@@ -76,34 +82,42 @@ def ConfirmHandler():
 @APP.route("/test", methods=["GET"])
 def TestHandler():
   token = request.json["token"]
-  return {"result": verify(REDIS, token)}
+  return {"result": verify(REDIS, token)}, 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 @ErrorWrapper
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
-  return Home('123')
+  uuid = Auth(request.headers.get('Authorization'))
+  if uuid is None:
+    return Response(status=401)
+  return Home(uuid), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 @APP.route("/profile", methods=["GET"])
-@AuthWrapper
-def ProfileHandler(uuid):
-  return Profile(uuid)
+def ProfileHandler():
+  uuid = Auth(request.headers.get('Authorization'))
+  if uuid is None:
+    return Response(status=401)
+  return Profile(uuid), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 @ErrorWrapper
 @APP.route("/question", methods=["POST"])
 def QuestionHandler():
-  return Question('uuid',
+  uuid = Auth(request.headers.get('Authorization'))
+  if uuid is None:
+    return Response(status=401)
+  return Question(uuid,
                   request.json['themes'],
                   request.args.get('failed'),
-                  request.args.get('completed'))
+                  request.args.get('completed')), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 @ErrorWrapper
 @APP.route("/question/<question_uuid>/answer", methods=["POST"])
 def AnswerHandler(question_uuid):
-  answers = request.json()['answers']
-  ok, uuid = verify(request.headers.get('Authorization'))
-  if not ok:
+  uuid = Auth(request.headers.get('Authorization'))
+  if uuid is None:
     return Response(status=401)
-  return Answer(uuid, question_uuid, answers)
+  answers = request.json()['answers']
+  return Answer(uuid, question_uuid, answers), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 if __name__ == "__main__":
   logging.getLogger('service').setLevel(logging.INFO)
