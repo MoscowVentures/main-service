@@ -37,6 +37,12 @@ INSERT INTO app.users(
 )
 VALUES (
   'user_uuid1', 'ivan', '2000', '9349439939'
+),
+(
+  'user_uuid2', 'micha', '2001', '934332939'
+),
+ (
+  'user_uuid3', 'masha', '2003', '9884239439939'
 );
 
 INSERT INTO app.themes (
@@ -102,4 +108,40 @@ INSERT INTO app.questions_x_users (
 ),
 (
   'question_uuid_5', 'user_uuid1', TRUE
+);
+
+INSERT INTO app.questions_x_users (
+  question_uuid, user_uuid, completed
+) VALUES (
+  'question_uuid_1', 'user_uuid3', TRUE
+),
+(
+  'question_uuid_2', 'user_uuid3', TRUE
+),
+(
+  'question_uuid_3', 'user_uuid3', FALSE
+),
+(
+  'question_uuid_4', 'user_uuid3', TRUE
+),
+(
+  'question_uuid_5', 'user_uuid3', TRUE
+);
+
+INSERT INTO app.questions_x_users (
+  question_uuid, user_uuid, completed
+) VALUES (
+  'question_uuid_1', 'user_uuid2', TRUE
+),
+(
+  'question_uuid_2', 'user_uuid2', TRUE
+),
+(
+  'question_uuid_3', 'user_uuid2', TRUE
+),
+(
+  'question_uuid_4', 'user_uuid2', TRUE
+),
+(
+  'question_uuid_5', 'user_uuid2', TRUE
 );
