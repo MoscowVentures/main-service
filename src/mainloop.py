@@ -13,7 +13,7 @@ import redis
 
 from handlers.home import Home
 from handlers.question import Question
-from handlers.question import Answer
+from handlers.answer import Answer
 
 from handlers.login import verify
 
@@ -83,7 +83,7 @@ def HomeHandler():
 
 @APP.route("/profile", methods=["GET"])
 @AuthWrapper(request)
-def ProfileHandler():
+def ProfileHandler(uuid):
   return Profile(uuid)
 
 @ErrorWrapper
@@ -96,7 +96,7 @@ def QuestionHandler():
 
 @ErrorWrapper
 @APP.route("/question/<question_uuid>/answer", methods=["POST"])
-def QuestionHandler(question_uuid):
+def AnswerHandler(question_uuid):
   answers = request.json()['answers']
   ok, uuid = verify(request.headers.get('Authorization'))
   if not ok:

@@ -29,13 +29,13 @@ CREATE TABLE app.questions (
   right_answers TEXT NOT NULL DEFAULT '"right_answers":[]',
   level INTEGER NOT NULL,
   age INTEGER NOT NULL,
-  theme TEXT NOT NULL,
+  theme_uuid TEXT NOT NULL,
 
   CONSTRAINT fk__question_type__questions
     FOREIGN KEY (question_type) 
       REFERENCES app.question_types(id),
-  CONSTRAINT fk__theme__questions
-    FOREIGN KEY (theme) 
+  CONSTRAINT fk__theme_uuid__questions
+    FOREIGN KEY (theme_uuid) 
       REFERENCES app.themes(uuid)
 );
 
@@ -58,6 +58,8 @@ CREATE TABLE app.questions_x_users (
 CREATE TABLE app.stories (
   uuid TEXT PRIMARY KEY DEFAULT uuid_generate_v4(),
   show BOOLEAN DEFAULT TRUE,
+  title TEXT,
   text TEXT,
+  align TEXT,
   image_url TEXT NOT NULL
 );

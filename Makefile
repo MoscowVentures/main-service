@@ -11,6 +11,6 @@ build: build-base
 	docker build -t app-img .
 
 start: build
-	docker-compose up
+	docker-compose up -d
 
 stop: clear

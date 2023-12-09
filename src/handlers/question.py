@@ -18,6 +18,9 @@ def Question(user_uuid, themes, failed, completed):
   for row in rows:
     questions.append(row[0])
 
+  if len(questions) == 0:
+    return {}
+
   question = {'uuid': questions[randint(0, len(questions) - 1)]}
 
   cur.execute(DB.get_prepared('select_question'), 

@@ -45,7 +45,7 @@ LEFT JOIN completed_questions ON NOT %s = FALSE AND allowed_questions.uuid = com
 --   FROM app.questions
 --   WHERE level > 0 AND level < 99 AND
 --     age > 0 AND age < 99 AND
---     theme = ANY(ARRAY['uuid1']::TEXT[])
+--     theme = ANY(ARRAY['theme_uuid_1', 'theme_uuid_2', 'theme_uuid_3']::TEXT[])
 -- )
 -- SELECT allowed_questions.uuid
 -- FROM allowed_questions

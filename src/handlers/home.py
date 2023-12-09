@@ -8,7 +8,7 @@ def Home(user_uuid):
   rows = cur.fetchall()
   stories = []
   for row in rows:
-    stories.append({'text':row[0], 'image_url':row[1]})
+    stories.append({'text':row[2], 'image_url':row[4], 'title': row[1], 'align': row[3]})
 
   cur.execute(DB.get_prepared('select_themes'), ("123",))
   rows = cur.fetchall()

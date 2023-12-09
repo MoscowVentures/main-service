@@ -1,0 +1,26 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://172.21.0.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 05:52:12] "POST /home HTTP/1.1" 200 -
+ERROR:mainloop:Exception on /question [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 92, in QuestionHandler
+    return Question('uuid',
+  File "/app/src/handlers/question.py", line 21, in Question
+    question = {'uuid': questions[randint(0, len(questions) - 1)]}
+  File "/usr/local/lib/python3.9/random.py", line 338, in randint
+    return self.randrange(a, b+1)
+  File "/usr/local/lib/python3.9/random.py", line 316, in randrange
+    raise ValueError("empty range for randrange() (%d, %d, %d)" % (istart, istop, width))
+ValueError: empty range for randrange() (0, 0, 0)
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 05:52:20] "[35m[1mPOST /question?failed=true&completed=true HTTP/1.1[0m" 500 -
