@@ -35,6 +35,7 @@ REDIS = redis.StrictRedis(
 
 APP = Flask(__name__)
 
+
 def ErrorWrapper(func):
   def wrapper():
     try:
@@ -42,6 +43,7 @@ def ErrorWrapper(func):
     except Exception as e:
         logging.getLogger('service').info('Error: ' + str(e))
   return wrapper
+
 
 def Auth(token):  
   if token is None:
@@ -56,8 +58,10 @@ def Auth(token):
   else:
     return uuid
 
+
 @APP.route("/login", methods=["POST"])
 def LoginHandler():
+  logging.getLogger('service').info(request.json)
   if (not 'phone' in request.json):
     return Response(status=400)
   phone = request.json['phone']  
@@ -70,38 +74,48 @@ def LoginHandler():
     age = request.json['age']
   return Login(REDIS, phone, name, datetime.now().year - age - 1)
 
+
 @ErrorWrapper
 @APP.route("/confirm", methods=["GET"])
 def ConfirmHandler():
+  logging.getLogger('service').info(request.json)
   phone = request.json['phone']
   code = request.json['code']
   return get_token(REDIS, phone, code)
 
+
 @ErrorWrapper
 @APP.route("/test", methods=["GET"])
 def TestHandler():
+  logging.getLogger('service').info(request.json)
   token = request.json["token"]
   return {"result": verify(REDIS, token)}, 200, {'Content-Type': 'application/json; charset=utf-8'}
+
 
 @ErrorWrapper
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
+  logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
   return Home(uuid), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+
 @APP.route("/profile", methods=["GET"])
 def ProfileHandler():
+  logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   logging.getLogger('service').info('What?' + uuid)
   if uuid is None:
     return Response(status=401)
   return Profile(uuid), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+
 @ErrorWrapper
 @APP.route("/question", methods=["POST"])
 def QuestionHandler():
+  logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
@@ -111,14 +125,17 @@ def QuestionHandler():
                   request.args.get('completed'),
                   request.args.get('neuro')), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
+
 @ErrorWrapper
 @APP.route("/question/<question_uuid>/answer", methods=["POST"])
 def AnswerHandler(question_uuid):
+  logging.getLogger('service').info(request.json)
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
   answers = request.json()['answers']
   return Answer(uuid, question_uuid, answers), 200, {'Content-Type': 'application/json; charset=utf-8'}
+
 
 if __name__ == "__main__":
   logging.getLogger('service').setLevel(logging.INFO)
@@ -146,5 +163,6 @@ if __name__ == "__main__":
   DB.prepare('insert_answer')
   DB.prepare('get_user_by_uuid')
   DB.prepare('get_user_stat')
+  DB.prepare('insert_question')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))

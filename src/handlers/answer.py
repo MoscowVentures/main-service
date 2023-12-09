@@ -20,4 +20,6 @@ def Answer(user_uuid, question_uuid, answers):
                user_uuid,
                answers_set == right_answers_set))
 
+  conn.close()
+  
   return 

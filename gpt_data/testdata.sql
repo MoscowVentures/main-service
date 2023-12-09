@@ -63,8 +63,8 @@ INSERT INTO app.questions_x_users (
   'question_uuid_3', 'user_uuid_1', FALSE
 ),
 (
-  'question_uuid_4', 'user_uuid_1', TRUE
+  'question_uuid_6', 'user_uuid_1', TRUE
 ),
 (
-  'question_uuid_5', 'user_uuid_1', TRUE
+  'question_uuid_9', 'user_uuid_1', TRUE
 );

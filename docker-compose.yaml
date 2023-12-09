@@ -44,6 +44,7 @@ services:
     image: app-img
     restart: on-failure
     environment:
+      - NEURO_BASEURL=http://...
       - AUTH_ENABLED=False
       - POSTGRES_DB=app_db
       - POSTGRES_USER=app

@@ -3,10 +3,44 @@ import json
 from random import randint
 import logging
 
-def GetNeuroQuestion():
-  context = 'Тема: '
-  return {"question": context}
+import os
+
+import requests
+
+NEURO_BASEURL = os.environ.get('NEURO_BASEURL')
+
+def GetNeuroQuestion(user_uuid):
+  conn = DB.connect()
+  cur = conn.cursor()
+  cur.execute(DB.get_prepared('get_user_stat'), 
+              (user_uuid,))
+  rows = cur.fetchall()
+  conn.close()
+
+  theme_uuid = row[2]
+
+  themes = []
+  for row in rows:
+    themes.append({'res': row[0], 'theme_uuid': theme_uuid, 'theme_name': row[3]})
+  response = requests.post(NEURO_BASEURL + '/', json={'themes':themes})
+
+  question = {}
+
+  question = response.json['question']
+  right_answers = response.json['right_answers']
+  level = response.json['level']
+  age = response.json['age']
+
+  conn = DB.connect()
+  cur = conn.cursor()
+  cur.execute(DB.get_prepared('insert_question'), 
+              (1,question,right_answers,level,age,theme_uuid))
+  row = cur.fetchone()
+  conn.close()
+
+  return {'question': question}
   
+
 def GetQuestion(user_uuid, themes, failed, completed):
   conn = DB.connect()
   cur = conn.cursor()
@@ -40,11 +74,14 @@ def GetQuestion(user_uuid, themes, failed, completed):
               (theme_uuid,))
   row = cur.fetchone()
   question['theme'] = row[1]
+  
+  conn.close()
 
-  return {"question": question}
+  return {'question': question}
+
 
 def Question(user_uuid, themes, failed, completed, neuro):
   if neuro:
-    GetNeuroQuestion()
+    GetNeuroQuestion(user_uuid)
   else:
     GetQuestion(user_uuid, themes, failed, completed)
