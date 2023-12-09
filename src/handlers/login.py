@@ -61,7 +61,7 @@ def get_token(redis, phone, code):
         redis.set("salt_" + uuid, salt)
         logging.getLogger("service").info(redis.get("salt_" + uuid))
         return {"token": token}
-    return Response(status=401)
+    return Response(status=400)
 
 def verify(redis, encoded):
     if encoded == '':

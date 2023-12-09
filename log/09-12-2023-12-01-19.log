@@ -22,3 +22,12 @@ INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:06:14] "POST /question?failed=tru
 INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:06:15] "POST /question?failed=true&completed=true HTTP/1.1" 200 -
 INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:06:15] "POST /question?failed=true&completed=true HTTP/1.1" 200 -
 INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:06:15] "POST /question?failed=true&completed=true HTTP/1.1" 200 -
+INFO:service:None
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:08:18] "[31m[1mGET /confirm HTTP/1.1[0m" 401 -
+INFO:service:None
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:08:26] "[31m[1mGET /confirm HTTP/1.1[0m" 401 -
+INFO:service:None
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:08:33] "[31m[1mGET /confirm HTTP/1.1[0m" 401 -
+INFO:service:None
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:09:18] "[31m[1mGET /confirm HTTP/1.1[0m" 401 -
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:10:51] "[31m[1mGET /confirm HTTP/1.1[0m" 400 -

@@ -17,4 +17,7 @@ start: build
 stop: clear
 
 rebuild:
+	sudo make stop
+	git pull
+	make start
 	./rebuild.sh

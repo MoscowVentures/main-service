@@ -64,7 +64,7 @@ def Auth(token):
 def LoginHandler():
   if (not 'phone' in request.json):
     return Response(status=400)
-  phone = request.json['phone']  
+  phone = request.json['phone']
 
   name = None
   if 'name' in request.json:
