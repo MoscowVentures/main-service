@@ -127,7 +127,7 @@ def LeaderbordHandler():
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
-  return Leaderbord(uuid)
+  return Leaderbord()
 
 if __name__ == "__main__":
   logging.getLogger('service').setLevel(logging.INFO)
