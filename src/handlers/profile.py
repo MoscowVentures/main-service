@@ -19,10 +19,30 @@ def get_user_stat(uuid):
   conn.close()   
   return row
 
+def get_user_pos(uuid):
+  conn = DB.connect()
+  cur = conn.cursor()
+  cur.execute(DB.get_prepared('get_user_pos'), (uuid,) )
+  row = cur.fetchone()
+  logging.getLogger('service').info(uuid)
+  logging.getLogger('service').info(row)
+  conn.close()
+  return row
+
+def get_leaderbord():
+  conn = DB.connect()
+  cur = conn.cursor()
+  cur.execute(DB.get_prepared('get_leaderboard'))
+  rows = cur.fetchall()
+  logging.getLogger('service').info(rows)
+  conn.close()
+  return rows
+
 
 def Profile(uuid):
     user_data = get_user_by_uuid(uuid)
     user_stat = get_user_stat(uuid)
+    user_pos = get_user_pos(uuid)
     statistics = []
     if user_stat is not None:
       for row in user_stat:
@@ -40,6 +60,16 @@ def Profile(uuid):
     response["year"] = user_data[3]
     response["phone"] = user_data[4]
     response["statistics"] = statistics
+    response["pos"] = user_pos[2]
     return response
 
-    
+def Leaderbord():
+  rows = get_leaderbord()
+  leaderbord = []
+  for row in rows:
+    leaderbord.append({
+      "res": row[0],
+      "name": row[1],
+      "pos": row[2]
+    })
+  return leaderbord

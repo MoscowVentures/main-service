@@ -1,6 +1,6 @@
 from typing import Union
 from handlers.login import Login, get_token, verify
-from handlers.profile import Profile
+from handlers.profile import Profile, Leaderbord
 from database import DB
 import logging
 
@@ -131,6 +131,17 @@ def AnswerHandler(question_uuid):
   return Answer(uuid, question_uuid, answers), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 
+@APP.route("/leaderbord", methods=["GET"])
+def LeaderbordHandler():
+  logging.getLogger('service').info(request)
+  logging.getLogger('service').info(request.headers)
+  logging.getLogger('service').info(request.headers.get('Authorization'))
+  uuid = Auth(request.headers.get('Authorization'))
+  if uuid is None:
+    return Response(status=401)
+  return Leaderbord()
+
+
 if __name__ == "__main__":
   logging.getLogger('service').setLevel(logging.INFO)
 
@@ -159,5 +170,7 @@ if __name__ == "__main__":
   DB.prepare('get_user_stat')
   DB.prepare('insert_question')
   DB.prepare('select_last_answers')
+  DB.prepare('get_user_pos')
+  DB.prepare('get_leaderboard')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))
