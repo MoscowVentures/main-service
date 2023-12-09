@@ -127,7 +127,7 @@ def AnswerHandler(question_uuid):
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
-  answers = request.json()['answers']
+  answers = request.json['answers']
   return Answer(uuid, question_uuid, answers), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 

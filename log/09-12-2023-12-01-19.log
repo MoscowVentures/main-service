@@ -31,3 +31,24 @@ INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:08:33] "[31m[1mGET /confirm HTT
 INFO:service:None
 INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:09:18] "[31m[1mGET /confirm HTTP/1.1[0m" 401 -
 INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:10:51] "[31m[1mGET /confirm HTTP/1.1[0m" 400 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiYTIxYmFhZjUtZjI5OS00MDk2LTk5M2EtZDMwOWJhNmFhYTEwIn0.rQoPPo_IPNMbTGnxNzH4i015CCdoox9qIfeG83E2mSA
+ERROR:mainloop:Exception on /profile [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 105, in ProfileHandler
+    logging.getLogger('service').info('What?' + uuid)
+TypeError: can only concatenate str (not "NoneType") to str
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:15:06] "[35m[1mGET /profile HTTP/1.1[0m" 500 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiYTIxYmFhZjUtZjI5OS00MDk2LTk5M2EtZDMwOWJhNmFhYTEwIn0.rQoPPo_IPNMbTGnxNzH4i015CCdoox9qIfeG83E2mSA
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:16:34] "[31m[1mPOST /question?failed=true&completed=true HTTP/1.1[0m" 401 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiYTIxYmFhZjUtZjI5OS00MDk2LTk5M2EtZDMwOWJhNmFhYTEwIn0.rQoPPo_IPNMbTGnxNzH4i015CCdoox9qIfeG83E2mSA
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:16:40] "[31m[1mPOST /question?failed=true&completed=true HTTP/1.1[0m" 401 -
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiYTIxYmFhZjUtZjI5OS00MDk2LTk5M2EtZDMwOWJhNmFhYTEwIn0.rQoPPo_IPNMbTGnxNzH4i015CCdoox9qIfeG83E2mSA
+INFO:werkzeug:192.168.65.1 - - [09/Dec/2023 12:16:43] "[31m[1mPOST /question?failed=true&completed=true HTTP/1.1[0m" 401 -
