@@ -6,6 +6,7 @@ CREATE SCHEMA IF NOT EXISTS app;
 
 CREATE TABLE app.users (
   uuid TEXT PRIMARY KEY DEFAULT uuid_generate_v4(),
+  url TEXT DEFAULT 'https://cdn3.iconfinder.com/data/icons/feather-5/24/user-512.png',
   name TEXT NOT NULL,
   year INTEGER NOT NULL,
   phone TEXT NOT NULL UNIQUE,
