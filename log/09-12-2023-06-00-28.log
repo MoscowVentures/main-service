@@ -1,0 +1,30 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://172.24.0.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:service:None
+INFO:service:('02f4666c-6a13-46d4-adba-3d9464f0d445',)
+INFO:werkzeug:172.24.0.1 - - [09/Dec/2023 06:00:28] "POST /login HTTP/1.1" 200 -
+INFO:service:('02f4666c-6a13-46d4-adba-3d9464f0d445',)
+INFO:service:WTF???
+INFO:service:('02f4666c-6a13-46d4-adba-3d9464f0d445',)
+INFO:service:('02f4666c-6a13-46d4-adba-3d9464f0d445',)
+INFO:service:salt_02f4666c-6a13-46d4-adba-3d9464f0d445
+INFO:service:wyudi4YtAUqeVzZQ
+INFO:service:wyudi4YtAUqeVzZQ
+INFO:werkzeug:172.24.0.1 - - [09/Dec/2023 06:00:31] "GET /confirm HTTP/1.1" 200 -
+INFO:service:0
+INFO:service:<Request 'http://localhost:10000/profile' [GET]>
+ERROR:mainloop:Exception on /profile [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2137, in make_response
+    raise TypeError(
+TypeError: The view function for 'wrapper' did not return a valid response. The function either returned None or ended without a return statement.
+INFO:werkzeug:172.24.0.1 - - [09/Dec/2023 06:00:42] "[35m[1mGET /profile HTTP/1.1[0m" 500 -

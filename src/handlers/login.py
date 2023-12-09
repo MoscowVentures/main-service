@@ -3,6 +3,8 @@ from .jwtcoder import JwtCoder
 import logging
 import json
 import random
+from flask import Response
+
 
 ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -59,7 +61,7 @@ def get_token(redis, phone, code):
         redis.set("salt_" + uuid, salt)
         logging.getLogger("service").info(redis.get("salt_" + uuid))
         return {"token": token}
-    return {}
+    return Response(status=401)
 
 def verify(redis, encoded):
     parts = encoded.split('.')

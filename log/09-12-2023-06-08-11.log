@@ -1,0 +1,44 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://172.28.0.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:service:None
+INFO:service:('b502550f-aab9-48eb-91f3-578c5d4665e2',)
+INFO:werkzeug:172.28.0.1 - - [09/Dec/2023 06:08:12] "POST /login HTTP/1.1" 200 -
+INFO:service:('b502550f-aab9-48eb-91f3-578c5d4665e2',)
+INFO:service:WTF???
+INFO:service:('b502550f-aab9-48eb-91f3-578c5d4665e2',)
+INFO:service:('b502550f-aab9-48eb-91f3-578c5d4665e2',)
+INFO:service:salt_b502550f-aab9-48eb-91f3-578c5d4665e2
+INFO:service:K3OWf2iCk2Oix3Lu
+INFO:service:K3OWf2iCk2Oix3Lu
+INFO:werkzeug:172.28.0.1 - - [09/Dec/2023 06:08:17] "GET /confirm HTTP/1.1" 200 -
+INFO:service:0
+INFO:service:<Request 'http://localhost:10000/profile' [GET]>
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiYjUwMjU1MGYtYWFiOS00OGViLTkxZjMtNTc4YzVkNDY2NWUyIn0.SBSOn52HjMa1hfV53bwxLvq7TFQC9zGH0YYvVmgfsbg
+INFO:service:b502550f-aab9-48eb-91f3-578c5d4665e2
+INFO:service:K3OWf2iCk2Oix3Lu
+INFO:service:b502550f-aab9-48eb-91f3-578c5d4665e2
+ERROR:mainloop:Exception on /profile [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 56, in wrapper
+    return func(uuid)
+  File "/app/src/mainloop.py", line 89, in ProfileHandler
+    return Profile(uuid)
+  File "/app/src/handlers/profile.py", line 25, in Profile
+    user_stat = get_user_stat(uuid)
+  File "/app/src/handlers/profile.py", line 16, in get_user_stat
+    cur.execute(DB.get_prepared('get_user_stat'), (uuid,))
+  File "/app/src/database.py", line 18, in get_prepared
+    return self.requests[name]
+KeyError: 'get_user_stat'
+INFO:werkzeug:172.28.0.1 - - [09/Dec/2023 06:08:28] "[35m[1mGET /profile HTTP/1.1[0m" 500 -
