@@ -91,8 +91,9 @@ def TestHandler():
 
 
 @ErrorWrapper
-@APP.route("/home", methods=["POST"])
+@APP.route("/home", methods=["GET"])
 def HomeHandler():
+  logging.getLogger('service').info(request.headers.get('Authorization'))
   uuid = Auth(request.headers.get('Authorization'))
   if uuid is None:
     return Response(status=401)
