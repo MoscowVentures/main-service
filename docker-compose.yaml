@@ -6,7 +6,7 @@ services:
     image: redis:6.2-alpine
     restart: always
     ports:
-      - 6379:6379
+      - 20010:6379
     command: redis-server --save 20 1 --loglevel warning --requirepass Password12345
     volumes:
       - ./data/.redis:/data
@@ -26,7 +26,7 @@ services:
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=Password12345
     ports:
-      - 5432:5432
+      - 20011:5432
     volumes:
       - ./migrations:/docker-entrypoint-initdb.d
       - ./data/.pgdata:/var/lib/postgresql/data
