@@ -30,13 +30,13 @@ CREATE TABLE app.questions (
   right_answers TEXT NOT NULL DEFAULT '"right_answers":[]',
   level INTEGER NOT NULL,
   age INTEGER NOT NULL,
-  theme TEXT NOT NULL,
+  theme_uuid TEXT NOT NULL,
 
   CONSTRAINT fk__question_type__questions
     FOREIGN KEY (question_type) 
       REFERENCES app.question_types(id),
   CONSTRAINT fk__theme__questions
-    FOREIGN KEY (theme) 
+    FOREIGN KEY (theme_uuid) 
       REFERENCES app.themes(uuid)
 );
 

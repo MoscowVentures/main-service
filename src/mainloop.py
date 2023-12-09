@@ -13,7 +13,7 @@ import redis
 
 from handlers.home import Home
 from handlers.question import Question
-from handlers.question import Answer
+from handlers.answer import Answer
 
 from handlers.login import verify
 
@@ -43,18 +43,20 @@ def ErrorWrapper(func):
         logging.getLogger('service').info('Error: ' + str(e))
   return wrapper
 
-def AuthWrapper(request):
-  def wraps(func):
-    nonlocal request
-    def wrapper(*args, **kwargs):
-      token = request.headers.get('Authorization')
-      ok, uuid = verify(token)
-      if ok:
-        func(uuid)
-      else:
-        return Response(status=401)
-    return wrapper
-  return wraps
+def AuthWrapper(func):
+  def wrapper(*args, **kwargs):
+    # request = args[0]
+    logging.getLogger("service").info(len(args))
+    logging.getLogger("service").info(request)
+    logging.getLogger("service").info(request.headers.get('Authorization'))
+    ok, uuid = verify(REDIS, request.headers.get('Authorization'))
+    if not ok:
+      return Response(status = 401)
+    else:
+      return func(uuid)
+  return wrapper
+
+
 
 @APP.route("/login", methods=["POST"])
 def LoginHandler():
@@ -82,8 +84,8 @@ def HomeHandler():
   return Home('123')
 
 @APP.route("/profile", methods=["GET"])
-@AuthWrapper(request)
-def ProfileHandler():
+@AuthWrapper
+def ProfileHandler(uuid):
   return Profile(uuid)
 
 @ErrorWrapper
@@ -95,8 +97,8 @@ def QuestionHandler():
                   request.args.get('completed'))
 
 @ErrorWrapper
-@APP.route("/question/<question_uuid>/answer", methods=["POST"])
-def QuestionHandler(question_uuid):
+@APP.route("/question/{question_uuid}/answer", methods=["POST"])
+def AnswerHandler(question_uuid):
   answers = request.json()['answers']
   ok, uuid = verify(request.headers.get('Authorization'))
   if not ok:
@@ -128,5 +130,6 @@ if __name__ == "__main__":
   DB.prepare('select_theme')
   DB.prepare('insert_answer')
   DB.prepare('get_user_by_uuid')
+  DB.prepare('get_user_stat')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))

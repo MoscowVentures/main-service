@@ -15,7 +15,7 @@ insert into app.question_types (
 );
 
 insert into app.questions (
-  question_type, content, right_answers, level, age, theme
+  question_type, content, right_answers, level, age, theme_uuid
 ) values (
   1, '{"title":"Question?", "answers":["answer1", "answer2", "answer3"]}', '{}', 3, 12, 'uuid1'
 ), (

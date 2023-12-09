@@ -1,0 +1,41 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://172.31.0.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:service:None
+INFO:service:('d8e6922a-aef3-4652-a9ff-c406813de03c',)
+INFO:werkzeug:172.31.0.1 - - [09/Dec/2023 06:12:39] "POST /login HTTP/1.1" 200 -
+INFO:service:('d8e6922a-aef3-4652-a9ff-c406813de03c',)
+INFO:service:WTF???
+INFO:service:('d8e6922a-aef3-4652-a9ff-c406813de03c',)
+INFO:service:('d8e6922a-aef3-4652-a9ff-c406813de03c',)
+INFO:service:salt_d8e6922a-aef3-4652-a9ff-c406813de03c
+INFO:service:rLpu9uEjVhYYM7Px
+INFO:service:rLpu9uEjVhYYM7Px
+INFO:werkzeug:172.31.0.1 - - [09/Dec/2023 06:12:42] "GET /confirm HTTP/1.1" 200 -
+INFO:service:0
+INFO:service:<Request 'http://localhost:10000/profile' [GET]>
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiZDhlNjkyMmEtYWVmMy00NjUyLWE5ZmYtYzQwNjgxM2RlMDNjIn0.CiLbz-pyq6W5yPyOVDi8_gFucVUp2MoGd261uURctTg
+INFO:service:d8e6922a-aef3-4652-a9ff-c406813de03c
+INFO:service:rLpu9uEjVhYYM7Px
+INFO:service:d8e6922a-aef3-4652-a9ff-c406813de03c
+INFO:service:d8e6922a-aef3-4652-a9ff-c406813de03c
+ERROR:mainloop:Exception on /profile [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 56, in wrapper
+    return func(uuid)
+  File "/app/src/mainloop.py", line 89, in ProfileHandler
+    return Profile(uuid)
+  File "/app/src/handlers/profile.py", line 27, in Profile
+    for row in user_stat:
+TypeError: 'NoneType' object is not iterable
+INFO:werkzeug:172.31.0.1 - - [09/Dec/2023 06:12:50] "[35m[1mGET /profile HTTP/1.1[0m" 500 -

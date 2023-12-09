@@ -1,5 +1,5 @@
 SELECT
-    ROUND((SUM(completed) / COUNT(*)) * 100, 2) AS stat,
+    ROUND((SUM(completed::INTEGER) / COUNT(*)) * 100, 2) AS stat,
     user_uuid,
     theme_uuid
 FROM

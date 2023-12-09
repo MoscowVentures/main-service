@@ -1,0 +1,50 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://172.26.0.4:10000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:service:None
+INFO:service:('c82dfa75-0776-430f-a103-c8a7fef8a032',)
+INFO:werkzeug:172.26.0.1 - - [09/Dec/2023 06:04:17] "POST /login HTTP/1.1" 200 -
+INFO:service:('c82dfa75-0776-430f-a103-c8a7fef8a032',)
+INFO:service:WTF???
+INFO:service:('c82dfa75-0776-430f-a103-c8a7fef8a032',)
+INFO:service:('c82dfa75-0776-430f-a103-c8a7fef8a032',)
+INFO:service:salt_c82dfa75-0776-430f-a103-c8a7fef8a032
+INFO:service:pmWzo6LmCfyzjk3j
+INFO:service:pmWzo6LmCfyzjk3j
+INFO:werkzeug:172.26.0.1 - - [09/Dec/2023 06:04:20] "GET /confirm HTTP/1.1" 200 -
+INFO:service:0
+INFO:service:<Request 'http://localhost:10000/profile' [GET]>
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiMjU4ODE5OWItZWE4OC00MmVjLThjNjgtNTI1Yjc1YzYxOGRlIn0.2sxOP-18gkS-AZYo68yrrIEjySLUbQqH_lyAG3tie5s
+ERROR:mainloop:Exception on /profile [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 52, in wrapper
+    ok, uuid = verify(request.headers.get('Authorization'))
+TypeError: verify() missing 1 required positional argument: 'encoded'
+INFO:werkzeug:172.26.0.1 - - [09/Dec/2023 06:04:28] "[35m[1mGET /profile HTTP/1.1[0m" 500 -
+INFO:service:0
+INFO:service:<Request 'http://localhost:10000/profile' [GET]>
+INFO:service:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiYzgyZGZhNzUtMDc3Ni00MzBmLWExMDMtYzhhN2ZlZjhhMDMyIn0.eqWEkkRJp_aTzcEyWX5IF1VIkNyDQoFMeRpBM8ohLtU
+ERROR:mainloop:Exception on /profile [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/app/src/mainloop.py", line 52, in wrapper
+    ok, uuid = verify(request.headers.get('Authorization'))
+TypeError: verify() missing 1 required positional argument: 'encoded'
+INFO:werkzeug:172.26.0.1 - - [09/Dec/2023 06:04:35] "[35m[1mGET /profile HTTP/1.1[0m" 500 -

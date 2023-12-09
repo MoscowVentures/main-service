@@ -1,4 +1,5 @@
 from database import DB
+import logging
 
 def get_user_by_uuid(uuid):
   conn = DB.connect()
@@ -23,12 +24,13 @@ def Profile(uuid):
     user_data = get_user_by_uuid(uuid)
     user_stat = get_user_stat(uuid)
     statistics = []
-    for row in user_stat:
-      stat = {}
-      stat["res"]] = row[0]
-      stat["user_uuid"] = row[1]
-      stat["theme_uuid"] = row[2]
-      statistics.append(stat)
+    if user_stat is not None:
+      for row in user_stat:
+        stat = {}
+        stat["res"] = row[0]
+        stat["user_uuid"] = row[1]
+        stat["theme_uuid"] = row[2]
+        statistics.append(stat)
     response = {}
     response["url"] = user_data[1]
     response["name"] = user_data[2]
