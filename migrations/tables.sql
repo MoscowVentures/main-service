@@ -6,7 +6,6 @@ CREATE SCHEMA IF NOT EXISTS app;
 
 CREATE TABLE app.users (
   uuid TEXT PRIMARY KEY DEFAULT uuid_generate_v4(),
-  activated BOOLEAN DEFAULT FALSE,
   name TEXT NOT NULL,
   year INTEGER NOT NULL,
   phone TEXT NOT NULL UNIQUE,

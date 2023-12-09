@@ -11,7 +11,7 @@ def take_uuid_by_phone(phone):
   cur = conn.cursor()
   cur.execute(DB.get_prepared('get_user_by_phone'), (phone,))
   uuid = cur.fetchone()
-  logging.info(uuid)
+  logging.getLogger('service').info(uuid)
   conn.close()   
   return uuid
 
@@ -75,12 +75,12 @@ def verify(redis, encoded):
     except Exception:
         pass
     if salt is None:
-        return False
+        return False, ""
     logging.getLogger('service').info(uuid)
     logging.getLogger('service').info(salt)
 
     signature_income: bytes = JwtCoder.bs64decode_with_fix_padding(signature_bs64)
     right_signature: bytes = JwtCoder(salt).create_check_signature(header_bs64, payload_bs64)
 
-    return signature_income == right_signature
+    return signature_income == right_signature, uuid
 

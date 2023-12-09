@@ -1,5 +1,6 @@
 from typing import Union
 from handlers.login import Login, get_token, verify
+from handlers.profile import Profile
 from database import DB
 import logging
 
@@ -15,6 +16,10 @@ from handlers.question import Question
 
 import traceback
 import os
+
+import datetime
+from datetime import datetime
+
 
 REDIS = redis.StrictRedis(
   host=os.environ.get('REDIS_HOST'), 
@@ -35,12 +40,25 @@ def ErrorWrapper(func):
         return {'error': str(e)}
   return wrapper
 
+def AuthWrapper(request):
+  def wraps(func):
+    nonlocal request
+    def wrapper(*args, **kwargs):
+      token = request.headers.get('Authorization')
+      ok, uuid = verify(token)
+      if ok:
+        func(uuid)
+      else:
+        return Response(status=401)
+    return wrapper
+  return wraps
+
 @APP.route("/login", methods=["POST"])
 def LoginHandler():
   phone = request.json['phone']
   name = request.json['name']
   age = request.json['age']
-  return Login(REDIS, phone, name, 2023 - age - 1)
+  return Login(REDIS, phone, name, datetime.now().year - age - 1)
 
 @APP.route("/confirm", methods=["GET"])
 def ConfirmHandler():
@@ -56,6 +74,11 @@ def TestHandler():
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
   return Home('123')
+
+@APP.route("/profile", methods=["GET"])
+@AuthWrapper(request)
+def ProfileHandler():
+  return Profile(uuid)
 
 @ErrorWrapper
 @APP.route("/question", methods=["POST"])
@@ -86,5 +109,6 @@ if __name__ == "__main__":
   DB.prepare('create_user')
   DB.prepare('get_user_by_phone')
   DB.prepare('select_questions')
+  DB.prepare('get_user_by_uuid')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))
