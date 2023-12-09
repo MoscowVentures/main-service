@@ -3,4 +3,4 @@
 sudo make stop
 git pull
 make start
-psql -U your_username -d your_database_name -o /path/to/output.txt -f /path/to/script.sql
+psql "postgresql://app:Password12345@localhost:20011/app_db" -f ./gpt_data/testdata.sql

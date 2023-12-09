@@ -15,3 +15,6 @@ start: build
 	docker-compose up -d
 
 stop: clear
+
+rebuild:
+	./rebuild.sh
