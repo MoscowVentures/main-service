@@ -43,16 +43,15 @@ def ErrorWrapper(func):
         logging.getLogger('service').info('Error: ' + str(e))
   return wrapper
 
-def Auth(token):
-  if os.environ.get('AUTH_ENABLED') == 'False':
-    return 'uuid'
-  
+def Auth(token):  
   if token is None:
     return None
   
   logging.getLogger("service").info(token)
   ok, uuid = verify(REDIS, token)
   if not ok:
+    if os.environ.get('AUTH_ENABLED') == 'False':
+      return 'uuid'
     return None
   else:
     return uuid
@@ -66,10 +65,10 @@ def LoginHandler():
   name = None
   if 'name' in request.json:
     name = request.json['name']
-  age = None
+  age = 0
   if 'age' in request.json:
     age = request.json['age']
-  return Login(REDIS, phone, name, datetime.now().year - age - 1), 200, {'Content-Type': 'application/json; charset=utf-8'}
+  return Login(REDIS, phone, name, datetime.now().year - age - 1)
 
 @ErrorWrapper
 @APP.route("/confirm", methods=["GET"])
@@ -95,6 +94,7 @@ def HomeHandler():
 @APP.route("/profile", methods=["GET"])
 def ProfileHandler():
   uuid = Auth(request.headers.get('Authorization'))
+  logging.getLogger('service').info('What?' + uuid)
   if uuid is None:
     return Response(status=401)
   return Profile(uuid), 200, {'Content-Type': 'application/json; charset=utf-8'}
