@@ -1,2 +1,2 @@
-SELECT uuid, title, image_url
+SELECT uuid, title, text, image_url
 FROM app.themes;

@@ -4,15 +4,15 @@ insert into app.stories (text, image_url, title, align) values
 ('Резкое увеличение фишинговых атак в социальных сетях выдвигает обучение сотрудников в области кибербезопасности на передний план, в поиске эффективных методов защиты.', 'https://storage.yandexcloud.net/kandakovdr/bg_3.jpg', 'Фишинговые волны в социальных сетях', 'top');
 
 INSERT INTO app.themes (
-  uuid, title, image_url
+  uuid, title, text, image_url
 ) VALUES (
-  'theme_uuid_1', 'Финансовые нарушения', 'https://storage.yandexcloud.net/kandakovdr/topic1.png'
+  'theme_uuid_1', 'Финансовые нарушения', 'проверьте свои навыки в выявлении и предотвращении финансового мошенничества', 'https://storage.yandexcloud.net/kandakovdr/topic1.png'
 ), (
-  'theme_uuid_2', 'Защита персональных данных', 'https://storage.yandexcloud.net/kandakovdr/topic2.png'
+  'theme_uuid_2', 'Защита персональных данных', 'оцените свои знания в области средств защиты личной информации от угроз', 'https://storage.yandexcloud.net/kandakovdr/topic2.png'
 ), (
-  'theme_uuid_3', 'Защита личных цифровых устройств', 'https://storage.yandexcloud.net/kandakovdr/topic3.png'
+  'theme_uuid_3', 'Защита личных цифровых устройств', 'оцените свою готовность к обеспечению безопасности личных цифровых устройств', 'https://storage.yandexcloud.net/kandakovdr/topic3.png'
 ), (
-  'theme_uuid_4', 'Правила работы в сети интернет', 'https://storage.yandexcloud.net/kandakovdr/topic4.png'
+  'theme_uuid_4', 'Правила работы в сети интернет', 'проверьте свои знания по безопасному и этичному поведению в онлайн-среде', 'https://storage.yandexcloud.net/kandakovdr/topic4.png'
 );
 
 INSERT INTO app.question_types (
