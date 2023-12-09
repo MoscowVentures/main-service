@@ -8,8 +8,22 @@ import os
 import requests
 
 NEURO_BASEURL = os.environ.get('NEURO_BASEURL')
+ANTIFRAUD_DURATION = 300
+
+def antifraud(uuid):
+  conn = DB.connect()
+  cur = conn.cursor()
+  cur.execute(DB.get_prepared('select_last_answers'), 
+              (user_uuid,))
+  row = cur.fetchone()
+  conn.close()
+
+  return True
 
 def GetNeuroQuestion(user_uuid):
+  if (antifraud(user_uuid)):
+    return {}
+
   conn = DB.connect()
   cur = conn.cursor()
   cur.execute(DB.get_prepared('get_user_stat'), 
