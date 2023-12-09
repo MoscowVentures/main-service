@@ -22,7 +22,7 @@ WITH useruuid AS (
   FROM app.questions
   WHERE level > %s AND level < %s AND
     age > %s AND age < %s AND
-    theme = ANY(%s::TEXT[])
+    theme_uuid = ANY(%s::TEXT[])
 )
 SELECT allowed_questions.uuid
 FROM allowed_questions
