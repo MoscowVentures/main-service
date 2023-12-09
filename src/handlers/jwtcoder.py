@@ -31,7 +31,7 @@ class JwtCoder:
         _payload_b: bytes = json.dumps(payload, separators=(',', ':')).encode()
         _payload_bs64: str = base64.urlsafe_b64encode(_payload_b).decode().rstrip('=')
 
-        _signature_b: bytes = self.__create_check_signature(self.__HEADER_BS64, _payload_bs64)
+        _signature_b: bytes = self.create_check_signature(self.__HEADER_BS64, _payload_bs64)
         _signature_bs64: str = base64.urlsafe_b64encode(_signature_b).decode().rstrip("=")
 
         jwt = f'{self.__HEADER_BS64}.{_payload_bs64}.{_signature_bs64}'
@@ -47,9 +47,9 @@ class JwtCoder:
     def __decode(self, header_bs64: str, payload_bs64: str, signature_bs64: str) -> dict[str, any]:
         """ Validate signature and time after created. Return payload dict if valid. """
         # Safe decode incoming signature
-        _signature_income: bytes = self.__bs64decode_with_fix_padding(signature_bs64)
+        _signature_income: bytes = self.bs64decode_with_fix_padding(signature_bs64)
         # Create signature by incoming data and secret key
-        _signature_check: bytes = self.__create_check_signature(header_bs64, payload_bs64)
+        _signature_check: bytes = self.create_check_signature(header_bs64, payload_bs64)
         # Validate signature
         if _signature_income != _signature_check:
             return {}
@@ -69,17 +69,17 @@ class JwtCoder:
 
     def __get_data(self, payload: str) -> dict[str, any]:
         """ Get payload_bs64 from JWT payload_bs64 """
-        _data = self.__bs64decode_with_fix_padding(payload)
+        _data = self.bs64decode_with_fix_padding(payload)
         return json.loads(_data)
 
-    def __create_check_signature(self, header_bs64: str, payload_bs64: str) -> bytes:
+    def create_check_signature(self, header_bs64: str, payload_bs64: str) -> bytes:
         """ Create signature_bs64 with income payload_bs64 by secret key """
         _message = f'{header_bs64}.{payload_bs64}'.encode()
         _context = hmac.new(self.__secret_key, _message, self.__ALGORITHM)
         return _context.digest()
 
     @staticmethod
-    def __bs64decode_with_fix_padding(value: str) -> bytes:
+    def bs64decode_with_fix_padding(value: str) -> bytes:
         """ JWT token cut '='. This method add '=' to the end row to fix bytes length """
         _val_binary = value.encode()
         _val_binary += b"=" * ((4 - len(_val_binary) % 4) % 4)

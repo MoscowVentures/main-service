@@ -1,5 +1,6 @@
 from typing import Union
-from handlers.login import Login, get_token
+from handlers.login import Login, get_token, verify
+from handlers.profile import Profile
 from database import DB
 import logging
 
@@ -18,6 +19,10 @@ from handlers.login import verify
 
 import traceback
 import os
+
+import datetime
+from datetime import datetime
+
 
 REDIS = redis.StrictRedis(
   host=os.environ.get('REDIS_HOST'), 
@@ -38,22 +43,25 @@ def ErrorWrapper(func):
         logging.getLogger('service').info('Error: ' + str(e))
   return wrapper
 
-def AuthWrapper(func):
-  def wrapper():
-    ok, uuid = verify()
-    if ok:
-      func(uuid)
-    else:
-      return Response(status=401)
-  return wrapper
+def AuthWrapper(request):
+  def wraps(func):
+    nonlocal request
+    def wrapper(*args, **kwargs):
+      token = request.headers.get('Authorization')
+      ok, uuid = verify(token)
+      if ok:
+        func(uuid)
+      else:
+        return Response(status=401)
+    return wrapper
+  return wraps
 
-@ErrorWrapper
 @APP.route("/login", methods=["POST"])
 def LoginHandler():
   phone = request.json['phone']
   name = request.json['name']
-  year = request.json['year']
-  return Login(REDIS, phone, name, year)
+  age = request.json['age']
+  return Login(REDIS, phone, name, datetime.now().year - age - 1)
 
 @ErrorWrapper
 @APP.route("/confirm", methods=["GET"])
@@ -63,9 +71,20 @@ def ConfirmHandler():
   return get_token(REDIS, phone, code)
 
 @ErrorWrapper
+@APP.route("/test", methods=["GET"])
+def TestHandler():
+  token = request.json["token"]
+  return {"result": verify(REDIS, token)}
+
+@ErrorWrapper
 @APP.route("/home", methods=["POST"])
 def HomeHandler():
   return Home('123')
+
+@APP.route("/profile", methods=["GET"])
+@AuthWrapper(request)
+def ProfileHandler():
+  return Profile(uuid)
 
 @ErrorWrapper
 @APP.route("/question", methods=["POST"])
@@ -85,7 +104,6 @@ def QuestionHandler(question_uuid):
   return Answer(uuid, question_uuid, answers)
 
 if __name__ == "__main__":
-  logging.getLogger('bot').setLevel(logging.INFO)
   logging.getLogger('service').setLevel(logging.INFO)
 
   logging.basicConfig(filename='log/{}.log'.format(datetime.now().strftime("%d-%m-%Y-%H-%M-%S")), filemode='a')
@@ -109,5 +127,6 @@ if __name__ == "__main__":
   DB.prepare('select_question')
   DB.prepare('select_theme')
   DB.prepare('insert_answer')
+  DB.prepare('get_user_by_uuid')
 
   APP.run(host=os.environ.get('SERVICE_HOST'), port=os.environ.get('SERVICE_PORT'))
